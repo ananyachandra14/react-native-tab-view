@@ -34,6 +34,7 @@ export default class TabViewPagerAndroid<T: *> extends React.Component<
   }
 
   componentDidUpdate(prevProps: Props<T>) {
+    this.props.keyboardDismissMode = 'on-drag';
     if (
       this.props.layout !== prevProps.layout ||
       this.props.navigationState.routes.length !==
