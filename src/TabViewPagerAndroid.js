@@ -20,7 +20,7 @@ type Props<T> = PagerRendererProps<T> & {
 
 export default class TabViewPagerAndroid<T: *> extends React.Component<
   Props<T>
-> {
+  > {
   static propTypes = PagerRendererPropType;
 
   static defaultProps = {
@@ -31,14 +31,15 @@ export default class TabViewPagerAndroid<T: *> extends React.Component<
   constructor(props: Props<T>) {
     super(props);
     this._currentIndex = this.props.navigationState.index;
+    this._keyboardDismissMode = props.keyboardDismissMode;
   }
 
   componentDidUpdate(prevProps: Props<T>) {
-    this.props.keyboardDismissMode = 'on-drag';
+    this._keyboardDismissMode = 'on-drag';
     if (
       this.props.layout !== prevProps.layout ||
       this.props.navigationState.routes.length !==
-        prevProps.navigationState.routes.length ||
+      prevProps.navigationState.routes.length ||
       this.props.navigationState.index !== prevProps.navigationState.index
     ) {
       this._handlePageChange(this.props.navigationState.index);
@@ -79,13 +80,13 @@ export default class TabViewPagerAndroid<T: *> extends React.Component<
   _handlePageScroll = (e: PageScrollEvent) => {
     this.props.offsetX.setValue(
       e.nativeEvent.position *
-        this.props.layout.width *
-        (I18nManager.isRTL ? 1 : -1)
+      this.props.layout.width *
+      (I18nManager.isRTL ? 1 : -1)
     );
     this.props.panX.setValue(
       e.nativeEvent.offset *
-        this.props.layout.width *
-        (I18nManager.isRTL ? 1 : -1)
+      this.props.layout.width *
+      (I18nManager.isRTL ? 1 : -1)
     );
   };
 
@@ -137,7 +138,7 @@ export default class TabViewPagerAndroid<T: *> extends React.Component<
     return (
       <ViewPagerAndroid
         key={navigationState.routes.length}
-        keyboardDismissMode={keyboardDismissMode}
+        keyboardDismissMode={this._keyboardDismissMode}
         initialPage={initialPage}
         scrollEnabled={swipeEnabled !== false}
         onPageScroll={this._handlePageScroll}
