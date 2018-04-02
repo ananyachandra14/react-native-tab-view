@@ -15,6 +15,7 @@ import type {
 
 type Props<T> = PagerProps<T> & {
   navigationState: NavigationState<T>,
+  onPositionChange?: ({ value: number }) => void,
   onIndexChange: (index: number) => void,
   initialLayout?: Layout,
   renderPager: (props: *) => React.Element<any>,
@@ -54,6 +55,7 @@ export default class TabViewAnimated<T: *> extends React.Component<
 > {
   static propTypes = {
     navigationState: NavigationStatePropType.isRequired,
+    onPositionChange: PropTypes.func,
     onIndexChange: PropTypes.func.isRequired,
     initialLayout: PropTypes.shape({
       height: PropTypes.number.isRequired,
@@ -109,10 +111,14 @@ export default class TabViewAnimated<T: *> extends React.Component<
 
   componentDidMount() {
     this._mounted = true;
+    this._positionListener = this.state.panX.addListener(
+      this._trackPosition
+    );
   }
 
   componentWillUnmount() {
     this._mounted = false;
+    this.state.panX.removeListener(this._positionListener);
   }
 
   _mounted: boolean = false;
@@ -145,6 +151,12 @@ export default class TabViewAnimated<T: *> extends React.Component<
         width,
       },
     });
+  };
+
+  _trackPosition = (e: { value: number }) => {
+    const panX = e.value;
+    const position = (panX + this.state.offsetX._value) / this.state.layoutXY.x._value * -1;
+    this.props.onPositionChange(position);
   };
 
   _buildSceneRendererProps = (): SceneRendererProps<*> => ({
