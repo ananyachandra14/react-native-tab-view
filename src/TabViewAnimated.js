@@ -155,7 +155,8 @@ export default class TabViewAnimated<T: *> extends React.Component<
 
   _trackPosition = (e: { value: number }) => {
     const panX = e.value;
-    this.props.onPositionChange((panX + this.state.offsetX._value) / this.state.layoutXY.x._value * -1);
+    const position = (panX + this.state.offsetX._value) / this.state.layoutXY.x._value * -1;
+    this.props.onPositionChange(position);
   };
 
   _buildSceneRendererProps = (): SceneRendererProps<*> => ({
