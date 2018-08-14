@@ -142,6 +142,8 @@ export default class TabViewPagerScroll<T: *> extends React.Component<
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={1}
         onScroll={this._handleScroll}
+        onScrollBeginDrag={this.props.onScrollBeginDrag}
+        onScrollEndDrag={() => this.props.onScrollEndDrag(this.props.navigationState.index)}
         onMomentumScrollEnd={this._handleMomentumScrollEnd}
         contentOffset={this.state.initialOffset}
         style={styles.container}

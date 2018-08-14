@@ -17,6 +17,8 @@ type Props<T> = PagerProps<T> & {
   navigationState: NavigationState<T>,
   onPositionChange?: ({ value: number }) => void,
   onIndexChange: (index: number) => void,
+  onScrollBeginDrag?: () => void,
+  onScrollEndDrag?: (prevTabIndex: number) => void,
   initialLayout?: Layout,
   renderPager: (props: *) => React.Element<any>,
   renderScene: (props: SceneRendererProps<T> & Scene<T>) => ?React.Element<any>,
